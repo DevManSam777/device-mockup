@@ -16,7 +16,10 @@ A customizable web component that renders realistic device mockups (laptop or ph
 ## Installation
 
 ```html
-<script src="device-mockup.js" defer></script>
+<script
+  src="https://cdn.jsdelivr.net/gh/DevManSam777/device-mockup@main/device-mockup.js"
+  defer
+></script>
 ```
 
 ## Usage
@@ -28,7 +31,8 @@ A customizable web component that renders realistic device mockups (laptop or ph
   src="screenshot.avif"
   fallback="screenshot.webp"
   fallback-2="screenshot.png"
-  alt="Dashboard analytics view">
+  alt="Dashboard analytics view"
+>
 </device-mockup>
 
 <!-- Phone with video -->
@@ -39,7 +43,8 @@ A customizable web component that renders realistic device mockups (laptop or ph
   fallback-2="poster.png"
   hover-src="demo-hover.webm"
   alt="Mobile app demo"
-  theme="dark">
+  theme="dark"
+>
 </device-mockup>
 ```
 
@@ -64,14 +69,17 @@ A customizable web component that renders realistic device mockups (laptop or ph
 For best results, use media with these aspect ratios:
 
 **Laptop:**
+
 - Aspect ratio: **16:9** (landscape)
 - Recommended dimensions: 1920x1080, 1600x900, 1280x720, or 800x450
 
 **Phone:**
+
 - Aspect ratio: **9:16** (portrait)
 - Recommended dimensions: 1080x1920, 720x1280, 1170x2532, or 450x800
 
 **Tablet:**
+
 - Aspect ratio: **4:3** (portrait)
 - Recommended dimensions: 2048x2732, 1536x2048, 1024x1366, or 768x1024
 
@@ -89,7 +97,8 @@ If your images don't match the exact aspect ratios or you want an inset border e
   type="laptop"
   src="screenshot.png"
   padding="3px"
-  alt="Dashboard with border">
+  alt="Dashboard with border"
+>
 </device-mockup>
 
 <!-- Different padding for main and hover images -->
@@ -99,7 +108,8 @@ If your images don't match the exact aspect ratios or you want an inset border e
   padding="4px"
   hover-src="screen2.png"
   hover-padding="2px"
-  alt="App screens">
+  alt="App screens"
+>
 </device-mockup>
 ```
 
@@ -109,11 +119,7 @@ For media with different aspect ratios, use the `fit` attribute to control how t
 
 ```html
 <!-- Use cover to fill the screen (may crop edges) -->
-<device-mockup
-  type="laptop"
-  src="video.mp4"
-  fit="cover"
-  alt="Video demo">
+<device-mockup type="laptop" src="video.mp4" fit="cover" alt="Video demo">
 </device-mockup>
 
 <!-- Use contain to show full content (may have letterboxing) -->
@@ -121,7 +127,8 @@ For media with different aspect ratios, use the `fit` attribute to control how t
   type="phone"
   src="screenshot.png"
   fit="contain"
-  alt="Full screenshot">
+  alt="Full screenshot"
+>
 </device-mockup>
 
 <!-- Different fit for main and hover images -->
@@ -131,11 +138,13 @@ For media with different aspect ratios, use the `fit` attribute to control how t
   fit="contain"
   hover-src="video.mp4"
   hover-fit="cover"
-  alt="Mixed media demo">
+  alt="Mixed media demo"
+>
 </device-mockup>
 ```
 
 **fit values:**
+
 - `cover` - Fills the screen, may crop content to maintain aspect ratio
 - `contain` - Shows full content, may add letterboxing
 - `fill` - Stretches to fill (may distort)
@@ -167,8 +176,13 @@ device-mockup {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 ```
 
@@ -178,15 +192,16 @@ Override the default device colors using CSS custom properties:
 
 ```css
 device-mockup {
-  --frame-color: #3b82f6;      /* Device frame/bezel color */
-  --frame-dark: #1e40af;        /* Darker frame accents */
-  --base-color: #60a5fa;        /* Laptop base/phone indicator */
-  --base-dark: #2563eb;         /* Darker base accents */
-  --shadow-color: rgba(59, 130, 246, 0.3);  /* Drop shadow */
+  --frame-color: #3b82f6; /* Device frame/bezel color */
+  --frame-dark: #1e40af; /* Darker frame accents */
+  --base-color: #60a5fa; /* Laptop base/phone indicator */
+  --base-dark: #2563eb; /* Darker base accents */
+  --shadow-color: rgba(59, 130, 246, 0.3); /* Drop shadow */
 }
 ```
 
 **Available custom properties:**
+
 - `--frame-color` - Main device frame/bezel color
 - `--frame-dark` - Darker frame accents (notches, camera)
 - `--screen-bg` - Screen background (not typically visible)
@@ -196,6 +211,7 @@ device-mockup {
 - `--device-scale` - Scale transform (default: 1)
 
 **Example - Blue device:**
+
 ```css
 device-mockup {
   --frame-color: #3b82f6;
@@ -204,7 +220,7 @@ device-mockup {
   --shadow-color: rgba(59, 130, 246, 0.4);
 }
 ```
+---
+## [MIT License](License)
 
-## License
-
-MIT
+ &copy;2025 DevManSam

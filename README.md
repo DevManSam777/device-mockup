@@ -1,5 +1,7 @@
 # Device Mockup Web Component
 
+![Device Mockups](device_mockup.gif)
+
 A customizable web component that renders realistic device mockups (laptop or phone) with support for images, videos, and multiple fallback formats.
 
 ## Features

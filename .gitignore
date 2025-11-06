@@ -1,4 +1,6 @@
 *.html
+*.css
+*.txt
 *.png
 *.jpg
 *.avif

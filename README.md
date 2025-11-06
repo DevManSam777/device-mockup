@@ -290,14 +290,9 @@ Make your device mockups clickable by adding an `href` attribute. The entire dev
 
 **Link behavior:**
 - The entire device mockup becomes clickable when `href` is provided
+- On hover, the device slightly scales up (1.02x) with a smooth transition
 - Links open in a new tab by default (`target="_blank"`), or use `target` attribute to customize
 - Works perfectly with hover states - users can still see the hover media before clicking
-
-**Hover effect:**
-- The device slightly scales up (1.02x) with a smooth transition when:
-  - `hover-src` is present (shows different content on hover), OR
-  - `href` is present (device is clickable)
-- This subtle animation provides visual feedback to users
 
 ## Custom Colors
 

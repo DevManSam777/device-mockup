@@ -375,11 +375,6 @@ class DeviceMockup extends HTMLElement {
         transform: scale(var(--device-scale));
         transform-origin: top center;
         overflow: visible;
-        transition: transform 0.3s ease;
-      }
-
-      .device-container.has-hover:hover {
-        transform: scale(calc(var(--device-scale) * 1.02));
       }
 
       /* Laptop Styles */

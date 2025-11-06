@@ -4,12 +4,15 @@ A customizable web component that renders realistic device mockups (laptop or ph
 
 ## Features
 
-- Single component supports both laptop and phone devices
+- Single component supports laptop, phone, and tablet devices
 - Auto-detects media type (image vs video) from file extension
 - Multiple fallback format support (AVIF, WebP, PNG, MP4, WebM, etc.)
 - Automatic theme detection (light/dark) or manual override
 - Hover state support with fallbacks
-- Responsive sizing via CSS
+- Clickable links - make entire device a clickable link
+- Customizable colors via attributes or CSS custom properties
+- Easy sizing with width/height attributes - automatic proportional scaling
+- Fully responsive - scales proportionally at any size
 - No default animations - add your own with CSS
 - Fully accessible with ARIA support
 
@@ -50,6 +53,7 @@ A customizable web component that renders realistic device mockups (laptop or ph
 
 ## Attributes
 
+### Media & Display
 - `type` - Device type: `"laptop"`, `"phone"`, or `"tablet"` (required)
 - `src` - Primary media source (required)
 - `fallback` - First fallback source (optional)
@@ -59,10 +63,29 @@ A customizable web component that renders realistic device mockups (laptop or ph
 - `hover-fallback-2` - Second hover fallback (optional)
 - `alt` - Alt text for accessibility (required)
 - `theme` - Theme override: `"light"`, `"dark"`, or `"auto"` (default: `"auto"`)
+
+### Layout & Sizing
+- `width` - Custom width in pixels (e.g., `"500"` or `"500px"`) - automatically scales device proportionally (optional)
+- `height` - Custom height in pixels (e.g., `"400"` or `"400px"`) - automatically scales device proportionally (optional)
 - `padding` - CSS padding value for the main media (e.g., `"3px"`, `"0.5rem"`) (optional, default: `"0"`)
 - `hover-padding` - CSS padding value for hover media (optional, defaults to `padding` value)
 - `fit` - Object-fit value for main media: `"cover"`, `"contain"`, `"fill"`, `"none"`, or `"scale-down"` (optional, default: no object-fit)
 - `hover-fit` - Object-fit value for hover media (optional, default: no object-fit)
+
+**⚠️ Important:** Use **EITHER** `width` **OR** `height` attribute, not both. The component automatically maintains aspect ratios - if you set width, height adjusts automatically, and vice versa. If both are provided, only `width` will be used.
+
+### Interactivity
+- `href` - URL to navigate to when clicked (optional, makes the entire device clickable)
+- `target` - Link target: `"_self"`, `"_blank"`, `"_parent"`, or `"_top"` (optional, default: `"_blank"`, only used with `href`)
+
+### Color Customization (Attributes)
+- `frame-color` - Main device frame/bezel color (optional)
+- `frame-dark` - Darker frame accents for notches and camera (optional)
+- `base-color` - Laptop base and phone home indicator color (optional)
+- `base-dark` - Darker accents for laptop base details (optional)
+- `shadow-color` - Drop shadow color and opacity (optional)
+
+**Note:** Not all devices use all color properties. See [Color Customization](#custom-colors) for details.
 
 ## Recommended Media Dimensions
 
@@ -153,18 +176,60 @@ For media with different aspect ratios, use the `fit` attribute to control how t
 
 ## Sizing
 
-Control size with CSS:
+There are three ways to control the size of device mockups:
+
+### Method 1: Using Width or Height Attributes (Recommended)
+
+The easiest way - just specify the desired width **OR** height and the device scales proportionally:
+
+```html
+<!-- Set exact width - height adjusts automatically -->
+<device-mockup
+  type="laptop"
+  src="screenshot.png"
+  alt="Dashboard"
+  width="500"
+>
+</device-mockup>
+
+<!-- Or set exact height - width adjusts automatically -->
+<device-mockup
+  type="phone"
+  src="app.png"
+  alt="Mobile app"
+  height="600"
+>
+</device-mockup>
+```
+
+**⚠️ Important:** Don't use both `width` and `height` together - pick one! The component automatically maintains the correct aspect ratio based on whichever you choose.
+
+**Base dimensions for reference:**
+- **Laptop**: 238px wide × 154px tall
+- **Phone**: 126px wide × 252px tall
+- **Tablet**: 182px wide × 238px tall
+
+### Method 2: Using CSS Custom Properties
+
+Use the `--device-scale` variable for precise control:
+
+```css
+device-mockup {
+  --device-scale: 1.5; /* 150% of original size */
+}
+```
+
+### Method 3: Using CSS Width
+
+Set a width via CSS and the component scales to fit:
 
 ```css
 device-mockup {
   width: 600px; /* Component scales proportionally */
 }
-
-/* Or use CSS custom properties */
-device-mockup {
-  --device-scale: 1.5;
-}
 ```
+
+**Note:** All three methods maintain the device's aspect ratio and scale all elements proportionally.
 
 ## Custom Animations
 
@@ -186,39 +251,166 @@ device-mockup {
 }
 ```
 
-## Custom Colors
+## Clickable Links
 
-Override the default device colors using CSS custom properties:
+Make your device mockups clickable by adding an `href` attribute. The entire device becomes a clickable link:
 
-```css
-device-mockup {
-  --frame-color: #3b82f6; /* Device frame/bezel color */
-  --frame-dark: #1e40af; /* Darker frame accents */
-  --base-color: #60a5fa; /* Laptop base/phone indicator */
-  --base-dark: #2563eb; /* Darker base accents */
-  --shadow-color: rgba(59, 130, 246, 0.3); /* Drop shadow */
-}
+```html
+<!-- Open link in same tab -->
+<device-mockup
+  type="laptop"
+  src="dashboard.png"
+  alt="View live demo"
+  href="https://example.com/demo"
+>
+</device-mockup>
+
+<!-- Open link in new tab -->
+<device-mockup
+  type="phone"
+  src="app.png"
+  alt="Download app"
+  href="https://example.com/download"
+  target="_blank"
+>
+</device-mockup>
+
+<!-- Link with hover effect -->
+<device-mockup
+  type="tablet"
+  src="feature-1.png"
+  hover-src="feature-2.png"
+  alt="View features"
+  href="/features"
+>
+</device-mockup>
 ```
 
-**Available custom properties:**
+**Link behavior:**
+- The entire device mockup becomes clickable when `href` is provided
+- On hover, the device slightly scales up (1.02x) with a smooth transition
+- Links open in a new tab by default (`target="_blank"`), or use `target` attribute to customize
+- Works perfectly with hover states - users can still see the hover media before clicking
 
-- `--frame-color` - Main device frame/bezel color
-- `--frame-dark` - Darker frame accents (notches, camera)
-- `--screen-bg` - Screen background (not typically visible)
-- `--base-color` - Laptop base and phone home indicator
-- `--base-dark` - Darker accents for base details
-- `--shadow-color` - Drop shadow color and opacity
-- `--device-scale` - Scale transform (default: 1)
+## Custom Colors
 
-**Example - Blue device:**
+You can customize device colors using **either attributes or CSS custom properties**. Both methods work identically - choose whichever fits your workflow better.
+
+### Method 1: Using Attributes
+
+Set colors directly on the element using attributes:
+
+```html
+<device-mockup
+  type="phone"
+  src="screenshot.png"
+  alt="Custom colored device"
+  frame-color="#3b82f6"
+  frame-dark="#1e40af"
+  base-color="#60a5fa"
+  shadow-color="rgba(59, 130, 246, 0.4)"
+>
+</device-mockup>
+```
+
+### Method 2: Using CSS Custom Properties
+
+Override colors using CSS variables:
 
 ```css
 device-mockup {
   --frame-color: #3b82f6;
   --frame-dark: #1e40af;
   --base-color: #60a5fa;
+  --base-dark: #2563eb;
   --shadow-color: rgba(59, 130, 246, 0.4);
 }
+```
+
+Or inline styles:
+
+```html
+<device-mockup
+  type="laptop"
+  src="screenshot.png"
+  alt="Custom colored device"
+  style="--frame-color: #3b82f6; --base-color: #60a5fa;"
+>
+</device-mockup>
+```
+
+### Color Properties by Device Type
+
+**Important:** Not all devices use all color properties. Here's what each device type uses:
+
+#### Laptop
+- ✅ `frame-color` - Main frame/bezel
+- ❌ `frame-dark` - (not used)
+- ✅ `base-color` - Laptop base top
+- ✅ `base-dark` - Laptop base darker gradient
+- ✅ `shadow-color` - Drop shadow
+
+#### Phone
+- ✅ `frame-color` - Main frame/bezel
+- ✅ `frame-dark` - Top notch/speaker
+- ✅ `base-color` - Home indicator bar
+- ❌ `base-dark` - (not used)
+- ✅ `shadow-color` - Drop shadow
+
+#### Tablet
+- ✅ `frame-color` - Main frame/bezel
+- ✅ `frame-dark` - Top camera dot
+- ❌ `base-color` - (not used)
+- ❌ `base-dark` - (not used)
+- ✅ `shadow-color` - Drop shadow
+
+### Available Color Properties
+
+- `frame-color` / `--frame-color` - Main device frame/bezel color
+- `frame-dark` / `--frame-dark` - Darker frame accents (phone notch, tablet camera)
+- `base-color` / `--base-color` - Laptop base and phone home indicator
+- `base-dark` / `--base-dark` - Laptop base darker accents
+- `shadow-color` / `--shadow-color` - Drop shadow color and opacity
+
+### Color Examples
+
+```html
+<!-- Blue phone using attributes -->
+<device-mockup
+  type="phone"
+  src="app.png"
+  alt="Blue phone"
+  frame-color="#3b82f6"
+  frame-dark="#1e40af"
+  base-color="#60a5fa"
+  shadow-color="rgba(59, 130, 246, 0.4)"
+>
+</device-mockup>
+
+<!-- Green laptop using CSS -->
+<device-mockup
+  type="laptop"
+  src="dashboard.png"
+  alt="Green laptop"
+  style="
+    --frame-color: #10b981;
+    --base-color: #34d399;
+    --base-dark: #047857;
+    --shadow-color: rgba(16, 185, 129, 0.4);
+  "
+>
+</device-mockup>
+
+<!-- Purple tablet mixing both methods -->
+<device-mockup
+  type="tablet"
+  src="tablet-ui.png"
+  alt="Purple tablet"
+  frame-color="#a855f7"
+  frame-dark="#7e22ce"
+  style="--shadow-color: rgba(168, 85, 247, 0.4);"
+>
+</device-mockup>
 ```
 ---
 ## [MIT License](License)

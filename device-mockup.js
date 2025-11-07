@@ -586,9 +586,9 @@ class DeviceMockup extends HTMLElement {
       .laptop-frame::before {
         content: '';
         position: absolute;
-        top: 3px;
+        top: 1px;
         left: 50%;
-        transform: translate(-50%, 0);
+        transform: translateX(-50%);
         width: 4px;
         height: 4px;
         background: var(--camera-color);
@@ -658,9 +658,9 @@ class DeviceMockup extends HTMLElement {
       .phone-frame::before {
         content: '';
         position: absolute;
-        top: 5px;
+        top: 2px;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translateX(-50%);
         width: 42px;
         height: 2px;
         background: var(--camera-color);
@@ -706,9 +706,9 @@ class DeviceMockup extends HTMLElement {
       .tablet-frame::before {
         content: '';
         position: absolute;
-        top: 4px;
+        top: 1.5px;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translateX(-50%);
         width: 5px;
         height: 5px;
         background: var(--camera-color);

@@ -1,6 +1,9 @@
 # Device Mockup Web Component
+#### Device Mockups w/ images and videos
+![Device Mockups w/ images and videos](device_mockup.gif)
 
-![Device Mockups](device_mockup.gif)
+#### Device Mockups w/ iframes
+![Device Mockups w/ iframes](iframe_device_mockup.gif)
 
 A customizable web component that renders realistic device mockups (laptop or phone) with support for images, videos, and multiple fallback formats.
 
@@ -12,6 +15,7 @@ A customizable web component that renders realistic device mockups (laptop or ph
 - Automatic theme detection (light/dark) or manual override
 - Hover state support with fallbacks
 - Clickable links - make entire device a clickable link
+- **Interactive iframe previews** - display websites in device-sized viewports
 - Customizable colors via attributes or CSS custom properties
 - Easy sizing with width/height attributes - automatic proportional scaling
 - Fully responsive - scales proportionally at any size
@@ -79,6 +83,7 @@ A customizable web component that renders realistic device mockups (laptop or ph
 ### Interactivity
 - `href` - URL to navigate to when clicked (optional, makes the entire device clickable)
 - `target` - Link target: `"_self"`, `"_blank"`, `"_parent"`, or `"_top"` (optional, default: `"_blank"`, only used with `href`)
+- `mode` - Rendering mode: `"iframe"` to display the URL as a live website directly in the device screen, or omit for regular link behavior (optional)
 
 ### Color Customization (Attributes)
 - `frame-color` - Main device frame/bezel color (optional)
@@ -294,6 +299,141 @@ Make your device mockups clickable by adding an `href` attribute. The entire dev
 - Links open in a new tab by default (`target="_blank"`), or use `target` attribute to customize
 - Works perfectly with hover states - users can still see the hover media before clicking
 
+## Live Iframe Mode
+
+Add `mode="iframe"` to display a **live, interactive website** directly in the device screen instead of static media. No `src` attribute needed.
+
+```html
+<!-- Live website in laptop screen -->
+<device-mockup
+  type="laptop"
+  alt="My website"
+  href="https://your-website.com"
+  mode="iframe"
+  width="400"
+>
+</device-mockup>
+
+<!-- Live website in phone screen -->
+<device-mockup
+  type="phone"
+  alt="Mobile view"
+  href="https://your-website.com"
+  mode="iframe"
+  height="300"
+>
+</device-mockup>
+```
+
+### How It Works
+
+The website loads in a real iframe inside the device screen. The iframe is automatically scaled to fit:
+- **Laptop:** Loads at 1280×800px, scaled to fit the screen
+- **Phone:** Loads at 375×812px, scaled to fit the screen
+- **Tablet:** Loads at 768×1024px, scaled to fit the screen
+
+You can scroll and interact with the website directly inside the device mockup.
+
+### ⚠️ Important Limitations
+
+**Most websites will NOT work in iframe mode** due to security restrictions:
+
+1. **X-Frame-Options Blocking**
+   - Many sites send `X-Frame-Options: DENY` or `X-Frame-Options: SAMEORIGIN` headers
+   - This prevents the browser from loading them in iframes
+   - **There is no client-side workaround for this**
+   - The iframe will appear blank if the site blocks embedding
+
+2. **Sites That Typically Block Iframes:**
+   - Social media (Facebook, Twitter, Instagram, LinkedIn)
+   - Search engines (Google, Bing)
+   - Streaming services (YouTube, Netflix, Spotify)
+   - Banking and financial sites
+   - Most commercial websites (Amazon, eBay, etc.)
+   - Many SaaS platforms (GitHub, Slack, etc.)
+
+3. **Sites That Usually Allow Iframes:**
+   - Wikipedia
+   - W3Schools
+   - Your own websites (if you control the headers)
+   - Some documentation sites
+   - Local HTML files
+
+4. **Link Behavior Issues:**
+   - Links with `target="_blank"` will open in new tabs (cannot be prevented)
+   - Most modern websites use `target="_blank"` for external links
+   - This is a browser security feature with no workaround
+
+### When to Use Iframe Mode
+
+**Good use cases:**
+- Showcasing your own websites where you control the server headers
+- Displaying local HTML files or documentation
+- Sites you've verified allow iframe embedding
+- Simple static sites without external navigation
+
+**Better alternatives:**
+- Use **images or videos** for sites that block iframes
+- Use the `href` attribute without `mode="iframe"` to create clickable mockups that open sites in new tabs
+- Mix approaches: iframes for your sites, images/videos for others
+
+### Testing If a Site Allows Iframes
+
+Before using iframe mode, test the site manually:
+
+```html
+<!-- Quick test in your browser console -->
+<iframe src="https://example.com"></iframe>
+```
+
+If you see the site load, it allows iframes. If you see a blank frame, it blocks them.
+
+### Server-Side Solution (If You Control the Site)
+
+To make your site work in iframes, configure your server to allow it:
+
+**Remove or modify these headers:**
+```
+X-Frame-Options: SAMEORIGIN
+Content-Security-Policy: frame-ancestors 'self' https://yourdomain.com
+```
+
+⚠️ **Security Warning:** Allowing iframe embedding can expose users to clickjacking attacks. Only allow trusted domains.
+
+### Iframe Security Considerations
+
+**Best practices:**
+- ✅ Only embed websites you own and trust
+- ✅ Use for portfolios, demos, and showcasing your own work
+- ❌ Do NOT embed untrusted third-party sites
+- ❌ Not recommended for production apps requiring high security
+
+The iframe uses permissive sandbox permissions for site functionality. For untrusted content, use static images or videos instead.
+
+### Iframe Background Color
+
+If the embedded website doesn't explicitly set its own background color, the device's screen background color may show through. You can customize this using either an attribute or CSS:
+
+```html
+<!-- Using attribute -->
+<device-mockup
+  type="laptop"
+  href="https://your-site.com"
+  mode="iframe"
+  screen-bg="white"
+></device-mockup>
+
+<!-- Or using CSS custom property -->
+<device-mockup
+  type="laptop"
+  href="https://your-site.com"
+  mode="iframe"
+  style="--screen-bg: white;"
+></device-mockup>
+```
+
+Default is `transparent` (matches the device frame color). 
+
 ## Custom Colors
 
 You can customize device colors using **either attributes or CSS custom properties**. Both methods work identically - choose whichever fits your workflow better.
@@ -347,7 +487,7 @@ Or inline styles:
 
 #### Laptop
 - ✅ `frame-color` - Main frame/bezel
-- ❌ `frame-dark` - (not used)
+- ✅ `frame-dark` - Top camera dot
 - ✅ `base-color` - Laptop base top
 - ✅ `base-dark` - Laptop base darker gradient
 - ✅ `shadow-color` - Drop shadow
@@ -369,10 +509,11 @@ Or inline styles:
 ### Available Color Properties
 
 - `frame-color` / `--frame-color` - Main device frame/bezel color
-- `frame-dark` / `--frame-dark` - Darker frame accents (phone notch, tablet camera)
+- `frame-dark` / `--frame-dark` - Darker frame accents (laptop camera, phone notch, tablet camera)
 - `base-color` / `--base-color` - Laptop base and phone home indicator
 - `base-dark` / `--base-dark` - Laptop base darker accents
 - `shadow-color` / `--shadow-color` - Drop shadow color and opacity
+- `screen-bg` / `--screen-bg` - Screen background color (default: `transparent`, matches frame color. See [Iframe Background Color](#iframe-background-color) for iframe usage)
 
 ### Color Examples
 

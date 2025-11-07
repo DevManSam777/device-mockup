@@ -481,7 +481,7 @@ class DeviceMockup extends HTMLElement {
       : "0";
 
     // Get color from style attribute CSS variables, then attributes, then defaults
-    // Support both new and old attribute names for backward compatibility
+    // Support both new and deprecated attribute names for backward compatibility
     const getColor = (cssVar, attrName, deprecatedAttr, lightDefault, darkDefault) => {
       const customValue = this.style.getPropertyValue(cssVar).trim();
       if (customValue) return customValue;
@@ -489,9 +489,12 @@ class DeviceMockup extends HTMLElement {
       const newAttrValue = this.getAttribute(attrName);
       if (newAttrValue) return newAttrValue;
 
-      // Check for old attribute name (silent fallback)
+      // Check for deprecated attribute and warn
       const deprecatedValue = this.getAttribute(deprecatedAttr);
-      if (deprecatedValue) return deprecatedValue;
+      if (deprecatedValue) {
+        console.warn(`device-mockup: "${deprecatedAttr}" is deprecated. Use "${attrName}" instead.`);
+        return deprecatedValue;
+      }
 
       return isDark ? darkDefault : lightDefault;
     };
@@ -583,7 +586,7 @@ class DeviceMockup extends HTMLElement {
       .laptop-frame::before {
         content: '';
         position: absolute;
-        top: 1.25px;
+        top: 2px;
         left: 50%;
         transform: translateX(-50%);
         width: 4px;

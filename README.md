@@ -354,7 +354,7 @@ You can scroll and interact with the website directly inside the device mockup.
    - Many SaaS platforms (GitHub, Slack, etc.)
 
 3. **Sites That Usually Allow Iframes:**
-   - Wikipedia, , The Atlantic, Daily Mail, Mashable, Economist, NYTimes, Scholarpedia, Jacobin, Encyclopedia.com Wired
+   - Wikipedia, , The Atlantic, Daily Mail, Mashable, Economist, Scholarpedia, Jacobin, Encyclopedia.com Wired
    - Your own websites (if you control the headers)
    - Some documentation sites
    - Local HTML files

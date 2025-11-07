@@ -75,8 +75,8 @@ A customizable web component that renders realistic device mockups (laptop or ph
 - `height` - Custom height in pixels (e.g., `"400"` or `"400px"`) - automatically scales device proportionally (optional)
 - `padding` - CSS padding value for the main media (e.g., `"3px"`, `"0.5rem"`) (optional, default: `"0"`)
 - `hover-padding` - CSS padding value for hover media (optional, defaults to `padding` value)
-- `fit` - Object-fit value for main media: `"cover"`, `"contain"`, `"fill"`, `"none"`, or `"scale-down"` (optional, default: no object-fit)
-- `hover-fit` - Object-fit value for hover media (optional, default: no object-fit)
+- `fit` - Object-fit value for main media: `"cover"`, `"contain"`, `"fill"`, `"none"`, or `"scale-down"` (optional, default: `"cover"`)
+- `hover-fit` - Object-fit value for hover media (optional, default: `"cover"`)
 
 **⚠️ Important:** Use **EITHER** `width` **OR** `height` attribute, not both. The component automatically maintains aspect ratios - if you set width, height adjusts automatically, and vice versa. If both are provided, only `width` will be used.
 
@@ -146,11 +146,11 @@ If your images don't match the exact aspect ratios or you want an inset border e
 
 ### Using Object-fit
 
-For media with different aspect ratios, use the `fit` attribute to control how the content fills the device screen:
+By default, media uses `fit="cover"` to fill the device screen professionally. Use the `fit` attribute to change this behavior:
 
 ```html
-<!-- Use cover to fill the screen (may crop edges) -->
-<device-mockup type="laptop" src="video.mp4" fit="cover" alt="Video demo">
+<!-- Default behavior - cover (no fit attribute needed) -->
+<device-mockup type="laptop" src="video.mp4" alt="Video demo">
 </device-mockup>
 
 <!-- Use contain to show full content (may have letterboxing) -->
@@ -176,10 +176,10 @@ For media with different aspect ratios, use the `fit` attribute to control how t
 
 **fit values:**
 
-- `cover` - Fills the screen, may crop content to maintain aspect ratio
+- `cover` - Fills the screen, may crop content to maintain aspect ratio (default)
 - `contain` - Shows full content, may add letterboxing
 - `fill` - Stretches to fill (may distort)
-- `none` - Uses natural size (default)
+- `none` - Uses natural size
 - `scale-down` - Uses smaller of `none` or `contain`
 
 ## Sizing

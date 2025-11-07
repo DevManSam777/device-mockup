@@ -271,8 +271,8 @@ class DeviceMockup extends HTMLElement {
     const hasHover = hoverMediaSources.length > 0;
     const padding = this.getAttribute("padding") || "0";
     const hoverPadding = this.getAttribute("hover-padding") || padding;
-    const fit = this.getAttribute("fit") || "";
-    const hoverFit = this.getAttribute("hover-fit") || "";
+    const fit = this.getAttribute("fit") || "cover";
+    const hoverFit = this.getAttribute("hover-fit") || "cover";
 
     let mediaElement;
 

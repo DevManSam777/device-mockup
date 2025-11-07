@@ -332,10 +332,12 @@ class DeviceMockup extends HTMLElement {
     const href = this.getAttribute("href");
     const target = this.getAttribute("target") || "_blank";
     const mode = this.getAttribute("mode");
+    const padding = this.getAttribute("padding") || "0";
+    const screenPaddingClass = mode === "iframe" && padding !== "0" ? "has-screen-padding" : "";
     const content = `
       <div class="laptop-mockup">
         <div class="laptop-frame">
-          <div class="laptop-screen">
+          <div class="laptop-screen ${screenPaddingClass}">
             ${mediaElement}
             ${hasHover ? hoverMediaElement : ""}
           </div>
@@ -380,10 +382,12 @@ class DeviceMockup extends HTMLElement {
     const href = this.getAttribute("href");
     const target = this.getAttribute("target") || "_blank";
     const mode = this.getAttribute("mode");
+    const padding = this.getAttribute("padding") || "0";
+    const screenPaddingClass = mode === "iframe" && padding !== "0" ? "has-screen-padding" : "";
     const content = `
       <div class="phone-mockup">
         <div class="phone-frame">
-          <div class="phone-screen">
+          <div class="phone-screen ${screenPaddingClass}">
             ${mediaElement}
             ${hasHover ? hoverMediaElement : ""}
           </div>
@@ -428,10 +432,12 @@ class DeviceMockup extends HTMLElement {
     const href = this.getAttribute("href");
     const target = this.getAttribute("target") || "_blank";
     const mode = this.getAttribute("mode");
+    const padding = this.getAttribute("padding") || "0";
+    const screenPaddingClass = mode === "iframe" && padding !== "0" ? "has-screen-padding" : "";
     const content = `
       <div class="tablet-mockup">
         <div class="tablet-frame">
-          <div class="tablet-screen">
+          <div class="tablet-screen ${screenPaddingClass}">
             ${mediaElement}
             ${hasHover ? hoverMediaElement : ""}
           </div>
@@ -479,6 +485,15 @@ class DeviceMockup extends HTMLElement {
     const hoverPaddingDouble = hasHoverPadding
       ? `calc(${hoverPadding} * 2)`
       : "0";
+
+    // Calculate iframe scales when padding is present
+    const paddingPx = parseFloat(padding);
+    const laptopScaleX = (212 - paddingPx * 2) / 1280;
+    const laptopScaleY = (128 - paddingPx * 2) / 800;
+    const phoneScaleX = (110 - paddingPx * 2) / 375;
+    const phoneScaleY = (238 - paddingPx * 2) / 812;
+    const tabletScaleX = (166 - paddingPx * 2) / 768;
+    const tabletScaleY = (222 - paddingPx * 2) / 1024;
 
     // Get color from style attribute CSS variables, then attributes, then defaults
     // Support both new and deprecated attribute names for backward compatibility
@@ -759,6 +774,19 @@ class DeviceMockup extends HTMLElement {
         transform: scale(0.21615);
       }
 
+      /* Override: Recalculate scale when padding is present */
+      .laptop-screen.has-screen-padding .device-iframe {
+        transform: scale(${laptopScaleX}, ${laptopScaleY});
+      }
+
+      .phone-screen.has-screen-padding .device-iframe {
+        transform: scale(${phoneScaleX}, ${phoneScaleY});
+      }
+
+      .tablet-screen.has-screen-padding .device-iframe {
+        transform: scale(${tabletScaleX}, ${tabletScaleY});
+      }
+
       picture {
         display: block;
         width: 100%;
@@ -794,6 +822,14 @@ class DeviceMockup extends HTMLElement {
       .has-padding-hover img {
         width: 100%;
         height: 100%;
+      }
+
+      /* Screen padding for iframes */
+      .laptop-screen.has-screen-padding,
+      .phone-screen.has-screen-padding,
+      .tablet-screen.has-screen-padding {
+        padding: ${padding};
+        box-sizing: border-box;
       }
 
       /* Object-fit Styles */

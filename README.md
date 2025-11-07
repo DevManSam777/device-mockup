@@ -86,11 +86,12 @@ A customizable web component that renders realistic device mockups (laptop or ph
 - `mode` - Rendering mode: `"iframe"` to display the URL as a live website directly in the device screen, or omit for regular link behavior (optional)
 
 ### Color Customization (Attributes)
-- `frame-color` - Main device frame/bezel color (optional)
-- `frame-dark` - Darker frame accents for notches and camera (optional)
-- `base-color` - Laptop base and phone home indicator color (optional)
-- `base-dark` - Darker accents for laptop base details (optional)
+- `bezel-color` - Main device frame/bezel color (optional)
+- `camera-color` - Camera dot (laptop/tablet) and notch/speaker (phone) color (optional)
+- `keyboard-color` - Laptop keyboard base and phone home indicator color (optional)
+- `keyboard-gradient` - Darker gradient for laptop keyboard base details (optional)
 - `shadow-color` - Drop shadow color and opacity (optional)
+- `screen-background` - Screen background color (optional, default: `transparent`)
 
 **Note:** Not all devices use all color properties. See [Color Customization](#custom-colors) for details.
 
@@ -420,7 +421,7 @@ If the embedded website doesn't explicitly set its own background color, the dev
   type="laptop"
   href="https://your-site.com"
   mode="iframe"
-  screen-bg="white"
+  screen-background="white"
 ></device-mockup>
 
 <!-- Or using CSS custom property -->
@@ -428,11 +429,11 @@ If the embedded website doesn't explicitly set its own background color, the dev
   type="laptop"
   href="https://your-site.com"
   mode="iframe"
-  style="--screen-bg: white;"
+  style="--screen-background: white;"
 ></device-mockup>
 ```
 
-Default is `transparent` (matches the device frame color). 
+Default is `transparent` (matches the device bezel color). 
 
 ## Custom Colors
 
@@ -447,9 +448,9 @@ Set colors directly on the element using attributes:
   type="phone"
   src="screenshot.png"
   alt="Custom colored device"
-  frame-color="#3b82f6"
-  frame-dark="#1e40af"
-  base-color="#60a5fa"
+  bezel-color="#3b82f6"
+  camera-color="#1e40af"
+  keyboard-color="#60a5fa"
   shadow-color="rgba(59, 130, 246, 0.4)"
 >
 </device-mockup>
@@ -461,10 +462,10 @@ Override colors using CSS variables:
 
 ```css
 device-mockup {
-  --frame-color: #3b82f6;
-  --frame-dark: #1e40af;
-  --base-color: #60a5fa;
-  --base-dark: #2563eb;
+  --bezel-color: #3b82f6;
+  --camera-color: #1e40af;
+  --keyboard-color: #60a5fa;
+  --keyboard-gradient: #2563eb;
   --shadow-color: rgba(59, 130, 246, 0.4);
 }
 ```
@@ -476,7 +477,7 @@ Or inline styles:
   type="laptop"
   src="screenshot.png"
   alt="Custom colored device"
-  style="--frame-color: #3b82f6; --base-color: #60a5fa;"
+  style="--bezel-color: #3b82f6; --keyboard-color: #60a5fa;"
 >
 </device-mockup>
 ```
@@ -486,34 +487,34 @@ Or inline styles:
 **Important:** Not all devices use all color properties. Here's what each device type uses:
 
 #### Laptop
-- ✅ `frame-color` - Main frame/bezel
-- ✅ `frame-dark` - Top camera dot
-- ✅ `base-color` - Laptop base top
-- ✅ `base-dark` - Laptop base darker gradient
+- ✅ `bezel-color` - Main frame/bezel
+- ✅ `camera-color` - Top camera dot
+- ✅ `keyboard-color` - Laptop keyboard base top
+- ✅ `keyboard-gradient` - Laptop keyboard base darker gradient
 - ✅ `shadow-color` - Drop shadow
 
 #### Phone
-- ✅ `frame-color` - Main frame/bezel
-- ✅ `frame-dark` - Top notch/speaker
-- ✅ `base-color` - Home indicator bar
-- ❌ `base-dark` - (not used)
+- ✅ `bezel-color` - Main frame/bezel
+- ✅ `camera-color` - Top notch/speaker bar
+- ✅ `keyboard-color` - Home indicator bar
+- ❌ `keyboard-gradient` - (not used)
 - ✅ `shadow-color` - Drop shadow
 
 #### Tablet
-- ✅ `frame-color` - Main frame/bezel
-- ✅ `frame-dark` - Top camera dot
-- ❌ `base-color` - (not used)
-- ❌ `base-dark` - (not used)
+- ✅ `bezel-color` - Main frame/bezel
+- ✅ `camera-color` - Top camera dot
+- ❌ `keyboard-color` - (not used)
+- ❌ `keyboard-gradient` - (not used)
 - ✅ `shadow-color` - Drop shadow
 
 ### Available Color Properties
 
-- `frame-color` / `--frame-color` - Main device frame/bezel color
-- `frame-dark` / `--frame-dark` - Darker frame accents (laptop camera, phone notch, tablet camera)
-- `base-color` / `--base-color` - Laptop base and phone home indicator
-- `base-dark` / `--base-dark` - Laptop base darker accents
+- `bezel-color` / `--bezel-color` - Main device frame/bezel color
+- `camera-color` / `--camera-color` - Camera dot and notch color (laptop camera, phone notch/speaker, tablet camera)
+- `keyboard-color` / `--keyboard-color` - Laptop keyboard base and phone home indicator
+- `keyboard-gradient` / `--keyboard-gradient` - Laptop keyboard base darker gradient accents
 - `shadow-color` / `--shadow-color` - Drop shadow color and opacity
-- `screen-bg` / `--screen-bg` - Screen background color (default: `transparent`, matches frame color. See [Iframe Background Color](#iframe-background-color) for iframe usage)
+- `screen-background` / `--screen-background` - Screen background color (default: `transparent`, matches bezel color. See [Iframe Background Color](#iframe-background-color) for iframe usage)
 
 ### Color Examples
 
@@ -523,9 +524,9 @@ Or inline styles:
   type="phone"
   src="app.png"
   alt="Blue phone"
-  frame-color="#3b82f6"
-  frame-dark="#1e40af"
-  base-color="#60a5fa"
+  bezel-color="#3b82f6"
+  camera-color="#1e40af"
+  keyboard-color="#60a5fa"
   shadow-color="rgba(59, 130, 246, 0.4)"
 >
 </device-mockup>
@@ -536,9 +537,9 @@ Or inline styles:
   src="dashboard.png"
   alt="Green laptop"
   style="
-    --frame-color: #10b981;
-    --base-color: #34d399;
-    --base-dark: #047857;
+    --bezel-color: #10b981;
+    --keyboard-color: #34d399;
+    --keyboard-gradient: #047857;
     --shadow-color: rgba(16, 185, 129, 0.4);
   "
 >
@@ -549,8 +550,8 @@ Or inline styles:
   type="tablet"
   src="tablet-ui.png"
   alt="Purple tablet"
-  frame-color="#a855f7"
-  frame-dark="#7e22ce"
+  bezel-color="#a855f7"
+  camera-color="#7e22ce"
   style="--shadow-color: rgba(168, 85, 247, 0.4);"
 >
 </device-mockup>

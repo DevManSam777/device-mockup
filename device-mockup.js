@@ -24,13 +24,20 @@ class DeviceMockup extends HTMLElement {
       "href",
       "target",
       "mode",
+      "bezel-color",
+      "camera-color",
+      "keyboard-color",
+      "keyboard-gradient",
+      "shadow-color",
+      "screen-background",
+      "width",
+      "height",
+      // Deprecated - kept for backward compatibility
       "frame-color",
       "frame-dark",
       "base-color",
       "base-dark",
-      "shadow-color",
-      "width",
-      "height",
+      "screen-bg",
     ];
   }
 
@@ -474,18 +481,27 @@ class DeviceMockup extends HTMLElement {
       : "0";
 
     // Get color from style attribute CSS variables, then attributes, then defaults
-    const getColor = (cssVar, attrName, lightDefault, darkDefault) => {
+    // Support both new and old attribute names for backward compatibility
+    const getColor = (cssVar, attrName, deprecatedAttr, lightDefault, darkDefault) => {
       const customValue = this.style.getPropertyValue(cssVar).trim();
       if (customValue) return customValue;
-      return this.getAttribute(attrName) || (isDark ? darkDefault : lightDefault);
+
+      const newAttrValue = this.getAttribute(attrName);
+      if (newAttrValue) return newAttrValue;
+
+      // Check for old attribute name (silent fallback)
+      const deprecatedValue = this.getAttribute(deprecatedAttr);
+      if (deprecatedValue) return deprecatedValue;
+
+      return isDark ? darkDefault : lightDefault;
     };
 
-    const frameColor = getColor('--frame-color', 'frame-color', '#1f2937', '#6b7280');
-    const frameDark = getColor('--frame-dark', 'frame-dark', '#111827', '#4b5563');
-    const baseColor = getColor('--base-color', 'base-color', '#374151', '#9ca3af');
-    const baseDark = getColor('--base-dark', 'base-dark', '#1f2937', '#6b7280');
-    const shadowColor = getColor('--shadow-color', 'shadow-color', 'rgba(0, 0, 0, 0.6)', 'rgba(0, 0, 0, 0.4)');
-    const screenBg = getColor('--screen-bg', 'screen-bg', 'transparent', 'transparent');
+    const bezelColor = getColor('--bezel-color', 'bezel-color', 'frame-color', '#1f2937', '#6b7280');
+    const cameraColor = getColor('--camera-color', 'camera-color', 'frame-dark', '#111827', '#4b5563');
+    const keyboardColor = getColor('--keyboard-color', 'keyboard-color', 'base-color', '#374151', '#9ca3af');
+    const keyboardGradient = getColor('--keyboard-gradient', 'keyboard-gradient', 'base-dark', '#1f2937', '#6b7280');
+    const shadowColor = getColor('--shadow-color', 'shadow-color', 'shadow-color', 'rgba(0, 0, 0, 0.6)', 'rgba(0, 0, 0, 0.4)');
+    const screenBackground = getColor('--screen-background', 'screen-background', 'screen-bg', 'transparent', 'transparent');
 
     // Calculate scale from width/height attributes if provided
     const calculatedScale = this._calculateScale();
@@ -511,11 +527,11 @@ class DeviceMockup extends HTMLElement {
         overflow: visible;
 
         /* Colors - can be set via attributes or overridden with CSS custom properties */
-        --frame-color: ${frameColor};
-        --frame-dark: ${frameDark};
-        --screen-bg: ${screenBg};
-        --base-color: ${baseColor};
-        --base-dark: ${baseDark};
+        --bezel-color: ${bezelColor};
+        --camera-color: ${cameraColor};
+        --screen-background: ${screenBackground};
+        --keyboard-color: ${keyboardColor};
+        --keyboard-gradient: ${keyboardGradient};
         --shadow-color: ${shadowColor};
       }
 
@@ -557,7 +573,7 @@ class DeviceMockup extends HTMLElement {
       .laptop-frame {
         width: 224px;
         height: 140px;
-        background: var(--frame-color);
+        background: var(--bezel-color);
         border-radius: 8px 8px 3px 3px;
         padding: 6px;
         box-shadow: 0 18px 35px -8px var(--shadow-color);
@@ -572,14 +588,14 @@ class DeviceMockup extends HTMLElement {
         transform: translateX(-50%);
         width: 4px;
         height: 4px;
-        background: var(--frame-dark);
+        background: var(--camera-color);
         border-radius: 50%;
       }
 
       .laptop-screen {
         width: 100%;
         height: 100%;
-        background: var(--screen-bg);
+        background: var(--screen-background);
         border-radius: 4px;
         overflow: hidden;
         position: relative;
@@ -588,7 +604,7 @@ class DeviceMockup extends HTMLElement {
       .laptop-base {
         width: 238px;
         height: 14px;
-        background: linear-gradient(to bottom, var(--base-color), var(--frame-color));
+        background: linear-gradient(to bottom, var(--keyboard-color), var(--bezel-color));
         border-radius: 0 0 14px 14px;
         margin-top: -3px;
         box-shadow: 0 6px 12px -3px var(--shadow-color);
@@ -603,7 +619,7 @@ class DeviceMockup extends HTMLElement {
         transform: translateX(-50%);
         width: 210px;
         height: 10px;
-        background: linear-gradient(to bottom, var(--base-color), var(--base-dark));
+        background: linear-gradient(to bottom, var(--keyboard-color), var(--keyboard-gradient));
         border-radius: 6px;
         box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
       }
@@ -616,7 +632,7 @@ class DeviceMockup extends HTMLElement {
         transform: translateX(-50%);
         width: 56px;
         height: 6px;
-        background: var(--frame-color);
+        background: var(--bezel-color);
         border-radius: 3px;
         box-shadow: inset 0 1px 1px rgba(0,0,0,0.4);
       }
@@ -629,7 +645,7 @@ class DeviceMockup extends HTMLElement {
       .phone-frame {
         width: 126px;
         height: 252px;
-        background: var(--frame-color);
+        background: var(--bezel-color);
         border-radius: 17px;
         padding: 3px 8px 3px 8px;
         box-shadow: 0 18px 35px -8px var(--shadow-color);
@@ -644,14 +660,14 @@ class DeviceMockup extends HTMLElement {
         transform: translateX(-50%);
         width: 42px;
         height: 2px;
-        background: var(--frame-dark);
+        background: var(--camera-color);
         border-radius: 1px;
       }
 
       .phone-screen {
         width: 100%;
         height: calc(100% - 14px);
-        background: var(--screen-bg);
+        background: var(--screen-background);
         border-radius: 14px;
         overflow: hidden;
         margin-top: 7px;
@@ -665,7 +681,7 @@ class DeviceMockup extends HTMLElement {
         transform: translateX(-50%);
         width: 28px;
         height: 3px;
-        background: var(--base-color);
+        background: var(--keyboard-color);
         border-radius: 2px;
       }
 
@@ -677,7 +693,7 @@ class DeviceMockup extends HTMLElement {
       .tablet-frame {
         width: 182px;
         height: 238px;
-        background: var(--frame-color);
+        background: var(--bezel-color);
         border-radius: 14px;
         padding: 8px;
         box-shadow: 0 18px 35px -8px var(--shadow-color);
@@ -692,14 +708,14 @@ class DeviceMockup extends HTMLElement {
         transform: translateX(-50%);
         width: 5px;
         height: 5px;
-        background: var(--frame-dark);
+        background: var(--camera-color);
         border-radius: 50%;
       }
 
       .tablet-screen {
         width: 100%;
         height: 100%;
-        background: var(--screen-bg);
+        background: var(--screen-background);
         border-radius: 8px;
         overflow: hidden;
         position: relative;

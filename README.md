@@ -36,7 +36,7 @@ The simplest way. Just add this script tag to your HTML:
   src="https://cdn.jsdelivr.net/gh/DevManSam777/device-mockup@main/device-mockup.js"
   defer
 ></script>
-<back-to-top></back-to-top>
+<device-mockup></device-mockup>
 ```
 
 ### Option 2: npm with a bundler (Vite, Webpack, Parcel, etc.)
@@ -56,7 +56,7 @@ import "@devmansam/device-mockup";
 Add to your HTML:
 
 ```html
-<back-to-top></back-to-top>
+<device-mockup></device-mockup>
 ```
 
 ### Option 3: npm without a bundler
@@ -65,7 +65,7 @@ If you installed via npm but aren't using a bundler, you need to use the full pa
 
 ```html
 <script type="module" src="./main.js"></script>
-<back-to-top></back-to-top>
+<device-mockup></device-mockup>
 ```
 
 In main.js:

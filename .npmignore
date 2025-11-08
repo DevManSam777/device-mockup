@@ -1,0 +1,10 @@
+# Git files
+.git
+.gitignore
+
+# Assets (not needed for npm package)
+assets/
+
+# Development files
+.DS_Store
+*.log

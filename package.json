@@ -1,0 +1,36 @@
+{
+  "name": "@devmansam/device-mockum",
+  "version": "1.0.0",
+  "description": "A customizable laptop, tablet, and mobile device mockup web component",
+  "main": "device-mockup.js",
+  "type": "module",
+  "files": [
+    "device-mockup.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "echo \"No tests specified yet\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevManSam777/device-mockup.git"
+  },
+  "keywords": [
+    "web-component",
+    "device mockup",
+    "mobile mockup",
+    "laptop mockup",
+    "mobile mockup",
+    "ui-component",
+    "image",
+    "video",
+    "iframe"
+  ],
+  "author": "DevManSam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DevManSam777/device-mockup/issues"
+  },
+  "homepage": "https://github.com/DevManSam777/device-mockup#readme"
+}

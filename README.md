@@ -1,8 +1,11 @@
 # Device Mockup Web Component
+
 #### Device Mockups w/ images and videos
+
 ![Device Mockups w/ images and videos](device_mockup.gif)
 
 #### Device Mockups w/ iframes
+
 ![Device Mockups w/ iframes](iframe_device_mockup.gif)
 
 A customizable web component that renders realistic device mockups (laptop or phone) with support for images, videos, and multiple fallback formats.
@@ -24,11 +27,51 @@ A customizable web component that renders realistic device mockups (laptop or ph
 
 ## Installation
 
+### Option 1: CDN (No build tools required)
+
+The simplest way. Just add this script tag to your HTML:
+
 ```html
 <script
   src="https://cdn.jsdelivr.net/gh/DevManSam777/device-mockup@main/device-mockup.js"
   defer
 ></script>
+<back-to-top></back-to-top>
+```
+
+### Option 2: npm with a bundler (Vite, Webpack, Parcel, etc.)
+
+If you're using a build tool:
+
+```bash
+npm install @devmansam/device-mockup
+```
+
+Then import in your JavaScript:
+
+```javascript
+import "@devmansam/device-mockup";
+```
+
+Add to your HTML:
+
+```html
+<back-to-top></back-to-top>
+```
+
+### Option 3: npm without a bundler
+
+If you installed via npm but aren't using a bundler, you need to use the full path:
+
+```html
+<script type="module" src="./main.js"></script>
+<back-to-top></back-to-top>
+```
+
+In main.js:
+
+```javascript
+import "./node_modules/@devmansam/device-mockup/device-mockup.js";
 ```
 
 ## Usage
@@ -60,6 +103,7 @@ A customizable web component that renders realistic device mockups (laptop or ph
 ## Attributes
 
 ### Media & Display
+
 - `type` - Device type: `"laptop"`, `"phone"`, or `"tablet"` (required)
 - `src` - Primary media source (required)
 - `fallback` - First fallback source (optional)
@@ -71,6 +115,7 @@ A customizable web component that renders realistic device mockups (laptop or ph
 - `theme` - Theme override: `"light"`, `"dark"`, or `"auto"` (default: `"auto"`)
 
 ### Layout & Sizing
+
 - `width` - Custom width in pixels (e.g., `"500"` or `"500px"`) - automatically scales device proportionally (optional)
 - `height` - Custom height in pixels (e.g., `"400"` or `"400px"`) - automatically scales device proportionally (optional)
 - `padding` - CSS padding value for the main media (e.g., `"3px"`, `"0.5rem"`) (optional, default: `"0"`)
@@ -81,11 +126,13 @@ A customizable web component that renders realistic device mockups (laptop or ph
 **⚠️ Important:** Use **EITHER** `width` **OR** `height` attribute, not both. The component automatically maintains aspect ratios - if you set width, height adjusts automatically, and vice versa. If both are provided, only `width` will be used.
 
 ### Interactivity
+
 - `href` - URL to navigate to when clicked (optional, makes the entire device clickable)
 - `target` - Link target: `"_self"`, `"_blank"`, `"_parent"`, or `"_top"` (optional, default: `"_blank"`, only used with `href`)
 - `mode` - Rendering mode: `"iframe"` to display the URL as a live website directly in the device screen, or omit for regular link behavior (optional)
 
 ### Color Customization (Attributes)
+
 - `bezel-color` - Main device frame/bezel color (optional)
 - `camera-color` - Camera dot (laptop/tablet) and notch/speaker (phone) color (optional)
 - `keyboard-color` - Laptop keyboard base and phone home indicator color (optional)
@@ -150,8 +197,7 @@ By default, media uses `fit="cover"` to fill the device screen professionally. U
 
 ```html
 <!-- Default behavior - cover (no fit attribute needed) -->
-<device-mockup type="laptop" src="video.mp4" alt="Video demo">
-</device-mockup>
+<device-mockup type="laptop" src="video.mp4" alt="Video demo"> </device-mockup>
 
 <!-- Use contain to show full content (may have letterboxing) -->
 <device-mockup
@@ -192,27 +238,18 @@ The easiest way - just specify the desired width **OR** height and the device sc
 
 ```html
 <!-- Set exact width - height adjusts automatically -->
-<device-mockup
-  type="laptop"
-  src="screenshot.png"
-  alt="Dashboard"
-  width="500"
->
+<device-mockup type="laptop" src="screenshot.png" alt="Dashboard" width="500">
 </device-mockup>
 
 <!-- Or set exact height - width adjusts automatically -->
-<device-mockup
-  type="phone"
-  src="app.png"
-  alt="Mobile app"
-  height="600"
->
+<device-mockup type="phone" src="app.png" alt="Mobile app" height="600">
 </device-mockup>
 ```
 
 **⚠️ Important:** Don't use both `width` and `height` together - pick one! The component automatically maintains the correct aspect ratio based on whichever you choose.
 
 **Base dimensions for reference:**
+
 - **Laptop**: 238px wide × 154px tall
 - **Phone**: 126px wide × 252px tall
 - **Tablet**: 182px wide × 238px tall
@@ -295,6 +332,7 @@ Make your device mockups clickable by adding an `href` attribute. The entire dev
 ```
 
 **Link behavior:**
+
 - The entire device mockup becomes clickable when `href` is provided
 - On hover, the device slightly scales up (1.02x) with a smooth transition
 - Links open in a new tab by default (`target="_blank"`), or use `target` attribute to customize
@@ -329,6 +367,7 @@ Add `mode="iframe"` to display a **live, interactive website** directly in the d
 ### How It Works
 
 The website loads in a real iframe inside the device screen. The iframe is automatically scaled to fit:
+
 - **Laptop:** Loads at 1280×800px, scaled to fit the screen
 - **Phone:** Loads at 375×812px, scaled to fit the screen
 - **Tablet:** Loads at 768×1024px, scaled to fit the screen
@@ -340,12 +379,14 @@ You can scroll and interact with the website directly inside the device mockup.
 **Most websites will NOT work in iframe mode** due to security restrictions:
 
 1. **X-Frame-Options Blocking**
+
    - Many sites send `X-Frame-Options: DENY` or `X-Frame-Options: SAMEORIGIN` headers
    - This prevents the browser from loading them in iframes
    - **There is no client-side workaround for this**
    - The iframe will appear blank if the site blocks embedding
 
 2. **Sites That Typically Block Iframes:**
+
    - Social media (Facebook, Twitter, Instagram, LinkedIn)
    - Search engines (Google, Bing)
    - Streaming services (YouTube, Netflix, Spotify)
@@ -354,6 +395,7 @@ You can scroll and interact with the website directly inside the device mockup.
    - Many SaaS platforms (GitHub, Slack, etc.)
 
 3. **Sites That Usually Allow Iframes:**
+
    - Wikipedia, , The Atlantic, Daily Mail, Mashable, Economist, Scholarpedia, Jacobin, Encyclopedia.com Wired
    - Your own websites (if you control the headers)
    - Some documentation sites
@@ -367,12 +409,14 @@ You can scroll and interact with the website directly inside the device mockup.
 ### When to Use Iframe Mode
 
 **Good use cases:**
+
 - Showcasing your own websites where you control the server headers
 - Displaying local HTML files or documentation
 - Sites you've verified allow iframe embedding
 - Simple static sites without external navigation
 
 **Better alternatives:**
+
 - Use **images or videos** for sites that block iframes
 - Use the `href` attribute without `mode="iframe"` to create clickable mockups that open sites in new tabs
 - Mix approaches: iframes for your sites, images/videos for others
@@ -393,6 +437,7 @@ If you see the site load, it allows iframes. If you see a blank frame, it blocks
 To make your site work in iframes, configure your server to allow it:
 
 **Remove or modify these headers:**
+
 ```
 X-Frame-Options: SAMEORIGIN
 Content-Security-Policy: frame-ancestors 'self' https://yourdomain.com
@@ -403,6 +448,7 @@ Content-Security-Policy: frame-ancestors 'self' https://yourdomain.com
 ### Iframe Security Considerations
 
 **Best practices:**
+
 - ✅ Only embed websites you own and trust
 - ✅ Use for portfolios, demos, and showcasing your own work
 - ❌ Do NOT embed untrusted third-party sites
@@ -432,7 +478,7 @@ If the embedded website doesn't explicitly set its own background color, the dev
 ></device-mockup>
 ```
 
-Default is `transparent` (matches the device bezel color). 
+Default is `transparent` (matches the device bezel color).
 
 ## Custom Colors
 
@@ -486,6 +532,7 @@ Or inline styles:
 **Important:** Not all devices use all color properties. Here's what each device type uses:
 
 #### Laptop
+
 - ✅ `bezel-color` - Main frame/bezel
 - ✅ `camera-color` - Top camera dot
 - ✅ `keyboard-color` - Laptop keyboard base top
@@ -493,6 +540,7 @@ Or inline styles:
 - ✅ `shadow-color` - Drop shadow
 
 #### Phone
+
 - ✅ `bezel-color` - Main frame/bezel
 - ✅ `camera-color` - Top notch/speaker bar
 - ✅ `keyboard-color` - Home indicator bar
@@ -500,6 +548,7 @@ Or inline styles:
 - ✅ `shadow-color` - Drop shadow
 
 #### Tablet
+
 - ✅ `bezel-color` - Main frame/bezel
 - ✅ `camera-color` - Top camera dot
 - ❌ `keyboard-color` - (not used)
@@ -555,7 +604,9 @@ Or inline styles:
 >
 </device-mockup>
 ```
+
 ---
+
 ## [MIT License](License)
 
- &copy;2025 DevManSam
+&copy;2025 DevManSam

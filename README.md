@@ -443,19 +443,6 @@ X-Frame-Options: SAMEORIGIN
 Content-Security-Policy: frame-ancestors 'self' https://yourdomain.com
 ```
 
-⚠️ **Security Warning:** Allowing iframe embedding can expose users to clickjacking attacks. Only allow trusted domains.
-
-### Iframe Security Considerations
-
-**Best practices:**
-
-- ✅ Only embed websites you own and trust
-- ✅ Use for portfolios, demos, and showcasing your own work
-- ❌ Do NOT embed untrusted third-party sites
-- ❌ Not recommended for production apps requiring high security
-
-The iframe uses permissive sandbox permissions for site functionality. For untrusted content, use static images or videos instead.
-
 ### Iframe Background Color
 
 If the embedded website doesn't explicitly set its own background color, the device's screen background color may show through. You can customize this using either an attribute or CSS:
@@ -607,6 +594,20 @@ Or inline styles:
 
 ---
 
-## [MIT License](License)
+## Changelog
+
+### v1.0.2 (Current)
+- Updated documentation
+
+### v1.0.1
+- Fixed padding rendering inconsistencies in iframe mode
+- Improved camera and notch vertical centering
+
+### v1.0.0
+- Initial release
+
+---
+
+## [License](License)
 
 &copy;2025 DevManSam
